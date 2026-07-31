@@ -12,13 +12,13 @@
 <meta property="og:locale" content="en_SA">
 <meta property="og:url" content="https://velmora-shop.netlify.app/">
 <meta property="og:site_name" content="Velmora Shop">
-<meta property="og:image" content="https://velmora-shop.netlify.app/og-image.jpg">
+<meta property="og:image" content="https://velmora-shop.netlify.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Velmora Shop — Curated Everyday Luxury">
 <meta name="twitter:description" content="A small edit of things worth owning — chosen, not just sold. Shop with Cash on Delivery across Saudi Arabia.">
-<meta name="twitter:image" content="https://velmora-shop.netlify.app/og-image.jpg">
+<meta name="twitter:image" content="https://velmora-shop.netlify.app/og-image.png">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://velmora-shop.netlify.app/">
 <meta name="theme-color" content="#8f6d3f">
@@ -889,8 +889,11 @@
     background:transparent;
     border:1px solid var(--line);
     color:var(--ink);
-    padding:10px 12px;
-    font-size:16px;
+    padding:10px 14px;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:.3px;
+    white-space:nowrap;
   }
 
   .share-btn:hover{
@@ -1902,7 +1905,7 @@ function renderProducts(){
         <button ${outOfStock ? "disabled style='opacity:.5;cursor:not-allowed;'" : ""} onclick="addCart('${p.name.replace(/'/g,"\\'")}',${p.price},'${p.id}'${p.color ? ",'"+p.color.replace(/'/g,"\\'")+"'" : ""})">${outOfStock ? t('outOfStockBadge') : t('addToCartBtn')}</button>
         <button class="btn-outline" onclick="shopNow('${p.name.replace(/'/g,"\\'")}')">${t('shopNowBtn')}</button>
         <button class="wish-btn" onclick="wishlist('${p.name.replace(/'/g,"\\'")}', this)">♡</button>
-        <button class="share-btn" title="Share" onclick="shareProduct('${p.id}')">⤴</button>
+        <button class="share-btn" title="Share" onclick="shareProduct('${p.id}')" data-i18n="shareBtn">Share</button>
       </div>
     </div>`;
   }).join("");
@@ -1924,10 +1927,7 @@ let currentShareText = "";
 
 function buildProductUrl(productId){
   const url = new URL(window.location.href);
-  url.search = "";
-  url.hash = "";
-  url.searchParams.set("product", productId);
-  return url.toString();
+  return url.origin + "/p/" + encodeURIComponent(productId);
 }
 
 function shareProduct(productId){
@@ -3914,7 +3914,7 @@ const TRANSLATIONS = {
     waSubtotalLabel: "Subtotal", waDiscountLabel: "Discount", waDeliveryLabel: "Delivery",
     waFreeLabel: "FREE", waTotalLabel: "Total", waPaymentMethodLabel: "Payment Method",
     waCodMethod: "Cash on Delivery (COD)", waThankYou: "Thank you for shopping with Velmora Shop!",
-    waSaudiArabia: "Saudi Arabia", waColorLabel: "Color", waContactShortly: "We'll contact you shortly to confirm delivery.", couponEnterCodeMsg: "Please enter a code", couponInvalidMsg: "Invalid or inactive coupon code", couponExpiredMsg: "This coupon has expired", couponLimitMsg: "This coupon has reached its usage limit", couponAppliedMsg: "Coupon applied", couponErrorMsg: "Could not check coupon. Check your internet connection.", discountPercentOffLabel: "% off", discountAmountOffLabel: "off", locNotSupportedMsg: "Location is not supported on this browser.", locDetectingBtn: "Detecting location...", locAllowPromptMsg: "Please allow location access when prompted.", locErrorGenericMsg: "Couldn't get location. You can still fill Building/Street below.", locErrorDeniedMsg: "Location permission denied. Please allow it in your browser settings, or fill Building/Street below.", locErrorUnavailableMsg: "Location signal unavailable (try moving outdoors or check GPS is on). You can still fill Building/Street below.", locErrorTimeoutMsg: "Location request timed out. Try again, or fill Building/Street below.", locStillTryingMsg: "Still trying (low accuracy mode)...", locCapturedBtn: "Location Captured ✓", locCapturedMsg: "Live location added — Building/Street below are now optional.", placingOrderBtn: "Placing order...", shareProductTitle: "Share this product", copyLinkBtn: "Copy link", closeBtn: "Close", linkCopiedMsg: "Link copied!"
+    waSaudiArabia: "Saudi Arabia", waColorLabel: "Color", waContactShortly: "We'll contact you shortly to confirm delivery.", couponEnterCodeMsg: "Please enter a code", couponInvalidMsg: "Invalid or inactive coupon code", couponExpiredMsg: "This coupon has expired", couponLimitMsg: "This coupon has reached its usage limit", couponAppliedMsg: "Coupon applied", couponErrorMsg: "Could not check coupon. Check your internet connection.", discountPercentOffLabel: "% off", discountAmountOffLabel: "off", locNotSupportedMsg: "Location is not supported on this browser.", locDetectingBtn: "Detecting location...", locAllowPromptMsg: "Please allow location access when prompted.", locErrorGenericMsg: "Couldn't get location. You can still fill Building/Street below.", locErrorDeniedMsg: "Location permission denied. Please allow it in your browser settings, or fill Building/Street below.", locErrorUnavailableMsg: "Location signal unavailable (try moving outdoors or check GPS is on). You can still fill Building/Street below.", locErrorTimeoutMsg: "Location request timed out. Try again, or fill Building/Street below.", locStillTryingMsg: "Still trying (low accuracy mode)...", locCapturedBtn: "Location Captured ✓", locCapturedMsg: "Live location added — Building/Street below are now optional.", placingOrderBtn: "Placing order...", shareProductTitle: "Share this product", copyLinkBtn: "Copy link", closeBtn: "Close", linkCopiedMsg: "Link copied!", shareBtn: "Share"
   },
   ar: {
     heroTitle: "رفاهية يومية منتقاة بعناية",
@@ -3980,7 +3980,7 @@ const TRANSLATIONS = {
     waSubtotalLabel: "المجموع الفرعي", waDiscountLabel: "الخصم", waDeliveryLabel: "التوصيل",
     waFreeLabel: "مجاني", waTotalLabel: "الإجمالي", waPaymentMethodLabel: "طريقة الدفع",
     waCodMethod: "الدفع عند الاستلام", waThankYou: "شكرًا لتسوقك مع Velmora Shop!",
-    waSaudiArabia: "المملكة العربية السعودية", waColorLabel: "اللون", waContactShortly: "سنتواصل معك قريبًا لتأكيد التوصيل.", couponEnterCodeMsg: "يرجى إدخال رمز", couponInvalidMsg: "رمز الخصم غير صالح أو غير مفعّل", couponExpiredMsg: "انتهت صلاحية هذا الرمز", couponLimitMsg: "وصل هذا الرمز إلى الحد الأقصى للاستخدام", couponAppliedMsg: "تم تطبيق الرمز", couponErrorMsg: "تعذر التحقق من الرمز. تحقق من اتصالك بالإنترنت.", discountPercentOffLabel: "% خصم", discountAmountOffLabel: "خصم", locNotSupportedMsg: "تحديد الموقع غير مدعوم في هذا المتصفح.", locDetectingBtn: "جاري تحديد الموقع...", locAllowPromptMsg: "يرجى السماح بالوصول للموقع عند الطلب.", locErrorGenericMsg: "تعذر تحديد الموقع. يمكنك تعبئة المبنى/الشارع أدناه.", locErrorDeniedMsg: "تم رفض إذن الموقع. يرجى السماح به من إعدادات المتصفح، أو تعبئة المبنى/الشارع أدناه.", locErrorUnavailableMsg: "إشارة الموقع غير متوفرة (جرّب الخروج للخارج أو تأكد من تفعيل GPS). يمكنك تعبئة المبنى/الشارع أدناه.", locErrorTimeoutMsg: "انتهت مهلة طلب الموقع. حاول مجددًا، أو عبّئ المبنى/الشارع أدناه.", locStillTryingMsg: "لا تزال المحاولة جارية (وضع دقة منخفضة)...", locCapturedBtn: "تم تحديد الموقع ✓", locCapturedMsg: "تمت إضافة الموقع المباشر — أصبح المبنى/الشارع أدناه اختياريًا.", placingOrderBtn: "جارٍ تقديم الطلب...", shareProductTitle: "شارك هذا المنتج", copyLinkBtn: "نسخ الرابط", closeBtn: "إغلاق", linkCopiedMsg: "تم نسخ الرابط!"
+    waSaudiArabia: "المملكة العربية السعودية", waColorLabel: "اللون", waContactShortly: "سنتواصل معك قريبًا لتأكيد التوصيل.", couponEnterCodeMsg: "يرجى إدخال رمز", couponInvalidMsg: "رمز الخصم غير صالح أو غير مفعّل", couponExpiredMsg: "انتهت صلاحية هذا الرمز", couponLimitMsg: "وصل هذا الرمز إلى الحد الأقصى للاستخدام", couponAppliedMsg: "تم تطبيق الرمز", couponErrorMsg: "تعذر التحقق من الرمز. تحقق من اتصالك بالإنترنت.", discountPercentOffLabel: "% خصم", discountAmountOffLabel: "خصم", locNotSupportedMsg: "تحديد الموقع غير مدعوم في هذا المتصفح.", locDetectingBtn: "جاري تحديد الموقع...", locAllowPromptMsg: "يرجى السماح بالوصول للموقع عند الطلب.", locErrorGenericMsg: "تعذر تحديد الموقع. يمكنك تعبئة المبنى/الشارع أدناه.", locErrorDeniedMsg: "تم رفض إذن الموقع. يرجى السماح به من إعدادات المتصفح، أو تعبئة المبنى/الشارع أدناه.", locErrorUnavailableMsg: "إشارة الموقع غير متوفرة (جرّب الخروج للخارج أو تأكد من تفعيل GPS). يمكنك تعبئة المبنى/الشارع أدناه.", locErrorTimeoutMsg: "انتهت مهلة طلب الموقع. حاول مجددًا، أو عبّئ المبنى/الشارع أدناه.", locStillTryingMsg: "لا تزال المحاولة جارية (وضع دقة منخفضة)...", locCapturedBtn: "تم تحديد الموقع ✓", locCapturedMsg: "تمت إضافة الموقع المباشر — أصبح المبنى/الشارع أدناه اختياريًا.", placingOrderBtn: "جارٍ تقديم الطلب...", shareProductTitle: "شارك هذا المنتج", copyLinkBtn: "نسخ الرابط", closeBtn: "إغلاق", linkCopiedMsg: "تم نسخ الرابط!", shareBtn: "مشاركة"
   },
   ur: {
     heroTitle: "منتخب روزمرہ لگژری",
@@ -4046,7 +4046,7 @@ const TRANSLATIONS = {
     waSubtotalLabel: "ذیلی کل", waDiscountLabel: "ڈسکاؤنٹ", waDeliveryLabel: "ڈیلیوری",
     waFreeLabel: "مفت", waTotalLabel: "کل رقم", waPaymentMethodLabel: "ادائیگی کا طریقہ",
     waCodMethod: "ادائیگی آن ڈیلیوری (COD)", waThankYou: "Velmora Shop سے خریداری کا شکریہ!",
-    waSaudiArabia: "سعودی عرب", waColorLabel: "رنگ", waContactShortly: "ہم آپ سے جلد ڈیلیوری کی تصدیق کے لیے رابطہ کریں گے۔", couponEnterCodeMsg: "براہ کرم کوڈ درج کریں", couponInvalidMsg: "غلط یا غیر فعال کوپن کوڈ", couponExpiredMsg: "اس کوپن کی میعاد ختم ہو چکی ہے", couponLimitMsg: "اس کوپن کی استعمال کی حد مکمل ہو چکی ہے", couponAppliedMsg: "کوپن لاگو ہو گیا", couponErrorMsg: "کوپن چیک نہیں ہو سکا۔ اپنا انٹرنیٹ کنکشن چیک کریں۔", discountPercentOffLabel: "% رعایت", discountAmountOffLabel: "رعایت", locNotSupportedMsg: "اس براؤزر میں لوکیشن سپورٹ نہیں ہے۔", locDetectingBtn: "لوکیشن معلوم کی جا رہی ہے...", locAllowPromptMsg: "جب پوچھا جائے تو براہ کرم لوکیشن تک رسائی کی اجازت دیں۔", locErrorGenericMsg: "لوکیشن حاصل نہیں ہو سکی۔ آپ نیچے بلڈنگ/گلی خود درج کر سکتے ہیں۔", locErrorDeniedMsg: "لوکیشن کی اجازت مسترد ہو گئی۔ براہ کرم اپنی براؤزر سیٹنگز میں اجازت دیں، یا نیچے بلڈنگ/گلی درج کریں۔", locErrorUnavailableMsg: "لوکیشن سگنل دستیاب نہیں (باہر جا کر کوشش کریں یا GPS آن کریں)۔ آپ نیچے بلڈنگ/گلی درج کر سکتے ہیں۔", locErrorTimeoutMsg: "لوکیشن کی درخواست کا وقت ختم ہو گیا۔ دوبارہ کوشش کریں، یا نیچے بلڈنگ/گلی درج کریں۔", locStillTryingMsg: "ابھی بھی کوشش جاری ہے (کم درستگی موڈ)...", locCapturedBtn: "لوکیشن حاصل ہو گئی ✓", locCapturedMsg: "لائیو لوکیشن شامل کر دی گئی — نیچے بلڈنگ/گلی اب اختیاری ہیں۔", placingOrderBtn: "آرڈر دیا جا رہا ہے...", shareProductTitle: "یہ پروڈکٹ شیئر کریں", copyLinkBtn: "لنک کاپی کریں", closeBtn: "بند کریں", linkCopiedMsg: "لنک کاپی ہو گیا!"
+    waSaudiArabia: "سعودی عرب", waColorLabel: "رنگ", waContactShortly: "ہم آپ سے جلد ڈیلیوری کی تصدیق کے لیے رابطہ کریں گے۔", couponEnterCodeMsg: "براہ کرم کوڈ درج کریں", couponInvalidMsg: "غلط یا غیر فعال کوپن کوڈ", couponExpiredMsg: "اس کوپن کی میعاد ختم ہو چکی ہے", couponLimitMsg: "اس کوپن کی استعمال کی حد مکمل ہو چکی ہے", couponAppliedMsg: "کوپن لاگو ہو گیا", couponErrorMsg: "کوپن چیک نہیں ہو سکا۔ اپنا انٹرنیٹ کنکشن چیک کریں۔", discountPercentOffLabel: "% رعایت", discountAmountOffLabel: "رعایت", locNotSupportedMsg: "اس براؤزر میں لوکیشن سپورٹ نہیں ہے۔", locDetectingBtn: "لوکیشن معلوم کی جا رہی ہے...", locAllowPromptMsg: "جب پوچھا جائے تو براہ کرم لوکیشن تک رسائی کی اجازت دیں۔", locErrorGenericMsg: "لوکیشن حاصل نہیں ہو سکی۔ آپ نیچے بلڈنگ/گلی خود درج کر سکتے ہیں۔", locErrorDeniedMsg: "لوکیشن کی اجازت مسترد ہو گئی۔ براہ کرم اپنی براؤزر سیٹنگز میں اجازت دیں، یا نیچے بلڈنگ/گلی درج کریں۔", locErrorUnavailableMsg: "لوکیشن سگنل دستیاب نہیں (باہر جا کر کوشش کریں یا GPS آن کریں)۔ آپ نیچے بلڈنگ/گلی درج کر سکتے ہیں۔", locErrorTimeoutMsg: "لوکیشن کی درخواست کا وقت ختم ہو گیا۔ دوبارہ کوشش کریں، یا نیچے بلڈنگ/گلی درج کریں۔", locStillTryingMsg: "ابھی بھی کوشش جاری ہے (کم درستگی موڈ)...", locCapturedBtn: "لوکیشن حاصل ہو گئی ✓", locCapturedMsg: "لائیو لوکیشن شامل کر دی گئی — نیچے بلڈنگ/گلی اب اختیاری ہیں۔", placingOrderBtn: "آرڈر دیا جا رہا ہے...", shareProductTitle: "یہ پروڈکٹ شیئر کریں", copyLinkBtn: "لنک کاپی کریں", closeBtn: "بند کریں", linkCopiedMsg: "لنک کاپی ہو گیا!", shareBtn: "شیئر کریں"
   },
   hi: {
     heroTitle: "चुनिंदा रोज़मर्रा की लक्ज़री",
@@ -4112,7 +4112,7 @@ const TRANSLATIONS = {
     waSubtotalLabel: "सब-टोटल", waDiscountLabel: "छूट", waDeliveryLabel: "डिलीवरी",
     waFreeLabel: "मुफ़्त", waTotalLabel: "कुल", waPaymentMethodLabel: "भुगतान का तरीका",
     waCodMethod: "कैश ऑन डिलीवरी (COD)", waThankYou: "Velmora Shop से खरीदारी के लिए धन्यवाद!",
-    waSaudiArabia: "सऊदी अरब", waColorLabel: "रंग", waContactShortly: "हम जल्द ही डिलीवरी की पुष्टि के लिए आपसे संपर्क करेंगे।", couponEnterCodeMsg: "कृपया कोड दर्ज करें", couponInvalidMsg: "अमान्य या निष्क्रिय कूपन कोड", couponExpiredMsg: "इस कूपन की समय-सीमा समाप्त हो चुकी है", couponLimitMsg: "इस कूपन की उपयोग सीमा पूरी हो चुकी है", couponAppliedMsg: "कूपन लागू हो गया", couponErrorMsg: "कूपन जांचा नहीं जा सका। अपना इंटरनेट कनेक्शन जांचें।", discountPercentOffLabel: "% छूट", discountAmountOffLabel: "छूट", locNotSupportedMsg: "इस ब्राउज़र पर लोकेशन समर्थित नहीं है।", locDetectingBtn: "लोकेशन का पता लगाया जा रहा है...", locAllowPromptMsg: "पूछे जाने पर कृपया लोकेशन एक्सेस की अनुमति दें।", locErrorGenericMsg: "लोकेशन नहीं मिल सकी। आप नीचे बिल्डिंग/गली खुद भर सकते हैं।", locErrorDeniedMsg: "लोकेशन की अनुमति अस्वीकृत। कृपया अपनी ब्राउज़र सेटिंग्स में अनुमति दें, या नीचे बिल्डिंग/गली भरें।", locErrorUnavailableMsg: "लोकेशन सिग्नल उपलब्ध नहीं (बाहर जाकर देखें या GPS चालू करें)। आप नीचे बिल्डिंग/गली भर सकते हैं।", locErrorTimeoutMsg: "लोकेशन अनुरोध का समय समाप्त हो गया। दोबारा प्रयास करें, या नीचे बिल्डिंग/गली भरें।", locStillTryingMsg: "अभी भी कोशिश जारी है (कम सटीकता मोड)...", locCapturedBtn: "लोकेशन मिल गई ✓", locCapturedMsg: "लाइव लोकेशन जोड़ दी गई — नीचे बिल्डिंग/गली अब वैकल्पिक हैं।", placingOrderBtn: "ऑर्डर दिया जा रहा है...", shareProductTitle: "यह उत्पाद साझा करें", copyLinkBtn: "लिंक कॉपी करें", closeBtn: "बंद करें", linkCopiedMsg: "लिंक कॉपी हो गया!"
+    waSaudiArabia: "सऊदी अरब", waColorLabel: "रंग", waContactShortly: "हम जल्द ही डिलीवरी की पुष्टि के लिए आपसे संपर्क करेंगे।", couponEnterCodeMsg: "कृपया कोड दर्ज करें", couponInvalidMsg: "अमान्य या निष्क्रिय कूपन कोड", couponExpiredMsg: "इस कूपन की समय-सीमा समाप्त हो चुकी है", couponLimitMsg: "इस कूपन की उपयोग सीमा पूरी हो चुकी है", couponAppliedMsg: "कूपन लागू हो गया", couponErrorMsg: "कूपन जांचा नहीं जा सका। अपना इंटरनेट कनेक्शन जांचें।", discountPercentOffLabel: "% छूट", discountAmountOffLabel: "छूट", locNotSupportedMsg: "इस ब्राउज़र पर लोकेशन समर्थित नहीं है।", locDetectingBtn: "लोकेशन का पता लगाया जा रहा है...", locAllowPromptMsg: "पूछे जाने पर कृपया लोकेशन एक्सेस की अनुमति दें।", locErrorGenericMsg: "लोकेशन नहीं मिल सकी। आप नीचे बिल्डिंग/गली खुद भर सकते हैं।", locErrorDeniedMsg: "लोकेशन की अनुमति अस्वीकृत। कृपया अपनी ब्राउज़र सेटिंग्स में अनुमति दें, या नीचे बिल्डिंग/गली भरें।", locErrorUnavailableMsg: "लोकेशन सिग्नल उपलब्ध नहीं (बाहर जाकर देखें या GPS चालू करें)। आप नीचे बिल्डिंग/गली भर सकते हैं।", locErrorTimeoutMsg: "लोकेशन अनुरोध का समय समाप्त हो गया। दोबारा प्रयास करें, या नीचे बिल्डिंग/गली भरें।", locStillTryingMsg: "अभी भी कोशिश जारी है (कम सटीकता मोड)...", locCapturedBtn: "लोकेशन मिल गई ✓", locCapturedMsg: "लाइव लोकेशन जोड़ दी गई — नीचे बिल्डिंग/गली अब वैकल्पिक हैं।", placingOrderBtn: "ऑर्डर दिया जा रहा है...", shareProductTitle: "यह उत्पाद साझा करें", copyLinkBtn: "लिंक कॉपी करें", closeBtn: "बंद करें", linkCopiedMsg: "लिंक कॉपी हो गया!", shareBtn: "शेयर करें"
   }
 };
 
